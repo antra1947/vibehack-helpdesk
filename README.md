@@ -1,4 +1,4 @@
- VibeHack Helpdesk
+VibeHack Helpdesk
 VibeHack Helpdesk is a Django-based ticket management web application designed to simplify issue tracking and user support during hackathons or collaborative projects.
 It allows users to create, manage, and resolve tickets, while admins can monitor and prioritize issues efficiently.
 
