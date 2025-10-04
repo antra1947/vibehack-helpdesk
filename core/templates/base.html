@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HelpDesk Mini</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+   
+    body.auth-bg {
+      background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: black;
+    }
+
+    body.tickets-bg {
+      background: url('https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: black;
+    }
+
+    body.create-bg {
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: black;
+    }
+
+    
+    body.auth-bg .navbar-nav .nav-link,
+    body.auth-bg .navbar-brand {
+      color: black !important;
+    }
+
+    body.tickets-bg .navbar-nav .nav-link,
+    body.tickets-bg .navbar-brand {
+      color: black !important;
+    }
+
+    body.create-bg .navbar-nav .nav-link,
+    body.create-bg .navbar-brand {
+      color: black !important;
+    }
+
+   
+    .auth-bg .col-md-4 {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .auth-bg input,
+    .auth-bg button,
+    .auth-bg label {
+      color: black !important;
+    }
+
+
+    .container {
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+  </style>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<nav class="navbar navbar-expand-lg mb-4" style="background-color: rgba(255,255,255,0.8)">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'ticket_list' %}">HelpDesk Mini</a>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'ticket_list' %}">All Tickets</a>
+        </li>
+
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ticket_create' %}">New Ticket</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+ 
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% block content %}{% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

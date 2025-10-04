@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block body_class %}tickets-bg{% endblock %}
+
+{% block content %}
+<h2>{{ ticket.title }}</h2>
+<p><strong>Priority:</strong> {{ ticket.get_priority_display }} |
+   <strong>Status:</strong> {{ ticket.get_status_display }}</p>
+<p>{{ ticket.description|linebreaks }}</p>
+<p><small>Submitted by {{ ticket.name }} ({{ ticket.email }}) on {{ ticket.created_at|date:"SHORT_DATETIME_FORMAT" }}</small></p>
+
+{% if ticket.is_overdue %}
+  <div class="alert alert-danger">This ticket is overdue!</div>
+{% endif %}
+
+{% if ticket.status != 'resolved' %}
+  <a href="{% url 'ticket_resolve' ticket.pk %}" class="btn btn-success btn-sm">Mark Resolved</a>
+{% endif %}
+<hr>
+
+<h5>Comments</h5>
+{% for c in ticket.comments.all %}
+  <div class="mb-2">
+    <strong>{{ c.author_name }}</strong> <small class="text-muted">{{ c.created_at|date:"SHORT_DATETIME_FORMAT" }}</small>
+    <div>{{ c.text|linebreaks }}</div>
+  </div>
+{% empty %}
+  <p>No comments yet.</p>
+{% endfor %}
+
+<hr>
+<h5>Add a comment</h5>
+<form method="post">
+  {% csrf_token %}
+  {{ comment_form.as_p }}
+  <button type="submit" name="add_comment" class="btn btn-primary btn-sm">Add comment</button>
+</form>
+{% endblock %}
